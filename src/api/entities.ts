@@ -31,11 +31,22 @@ export type Room = {
   blockId: string;
 };
 
-export type Controller = {
+export type AcMode = "HEAT" | "DRY" | "COOL" | "FAN";
+export type AcFan = "AUTO" | "LOW" | "MEDIUM" | "HIGH";
+
+export type ControllerState = {
+  power: boolean;
+  mode: AcMode;
+  temp: number;
+  fan: AcFan;
+  swingVertical: boolean;
+  swingHorizontal: boolean;
+  turbo: boolean;
+};
+
+export type Controller = ControllerState & {
   id: string;
-  deviceId: string;
+  slug: string;
+  name: string;
   roomId: string;
-  nickname?: string | null;
-  acManufacturer?: string | null;
-  irProtocol?: string | null;
 };

@@ -19,7 +19,12 @@ export async function apiFetch<T = unknown>(
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(body || `Requisição falhou (${res.status})`);
+    let message = body;
+    try {
+      message = JSON.parse(body).message ?? body;
+    } catch {}
+    if (res.status === 503) message = "Servidor de comandos fora do ar. Tente de novo.";
+    throw new Error(message || `Requisição falhou (${res.status})`);
   }
 
   if (res.status === 204) return undefined as T;
